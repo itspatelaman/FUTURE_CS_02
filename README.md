@@ -109,7 +109,7 @@ It reflects readiness to handle real-world SOC environments and contribute as a 
 If you'd like to collaborate or know more about this project:
 
 **Aman Patel**  
-🔗 [LinkedIn Profile](https://www.linkedin.com/in/i)  
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/its-aman-patel)  
 💻 [GitHub](https://github.com/itspatelaman)
 
 ---
