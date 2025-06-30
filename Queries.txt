@@ -1,0 +1,53 @@
+# ================================
+# Splunk Search Queries - SOC Task
+# ================================
+
+## 🔐 Incident 1: SSH Brute-Force Attempt
+### Detect multiple failed SSH login attempts
+index=* "sshd" "Failed password"
+
+#### 🔐 (Optional Enhancement)
+ Group failed logins by IP to detect brute-force patterns
+index=* "sshd" "Failed password" 
+| stats count by src_ip, user 
+| where count > 5
+
+## 🔐 Incident 2: Blocked RDP Port Access
+### Detect RDP connection attempts blocked by the firewall
+index=* "firewall: Connection" "BLOCKED" "port 3389"
+
+## ⚠️ Incident 3: Suspicious Command Execution
+### Look for risky command usage such as wget, curl, or sudo
+index=* ("wget" OR "curl" OR "sudo")
+
+## 👀 Incident 4: Multiple Successful Logins from Same IP
+### Find successful logins to different accounts from the same IP
+index=* "sshd" "Accepted password"
+| stats count by src_ip, user 
+| where count > 2
+
+## 🌐 Incident 5: Unusual Port Access Attempts
+### Find access attempts to non-standard ports
+index=* "BLOCKED" OR "Connection" AND (port!=80 AND port!=443)
+
+ 📈 Bonus: Repeated Login Failures (by user or IP)
+index=* "Failed password"
+| stats count by user, src_ip 
+| where count > 3
+
+### 🚨 Bonus: Detect sudo command activity
+index=* "sudo"
+
+### 🧪 Bonus: Monitor All Authentication Events
+index=* "sshd"
+
+### 🔍 Bonus: Keyword-based search for common attack tools
+index=* ("nmap" OR "hydra" OR "netcat")
+
+### ⚠️ Bonus: Track any elevated command executions
+index=* "COMMAND="
+
+### ✅ General Log Review (for debugging or baseline)
+index=* 
+| table _time, host, source, sourcetype, _raw 
+| sort -_time
